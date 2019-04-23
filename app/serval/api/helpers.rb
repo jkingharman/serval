@@ -17,7 +17,7 @@ module Serval
       end
 
       def validate_resource!(instance)
-        #TODO: Improve regex so we can remove #chomp and upcase check.
+        # TODO: Improve regex so we can remove #chomp and upcase check.
         instance.chomp!('_')
         not_all_caps = instance.upcase != instance
 
