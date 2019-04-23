@@ -64,7 +64,6 @@ describe 'api dbpedia_sparql' do
       end
     end
 
-
     it 'requires a valid format for films' do
       invalid = ["city_of_god", "City__Of_God", "_City_Of_God"]
 

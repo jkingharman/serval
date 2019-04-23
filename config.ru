@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
-require 'bundler/setup'
-Bundler.require
+require "bundler"
+Bundler.require(:default)
 
-# Add lib to paths for ease.
 $LOAD_PATH << './app'
 
 require 'serval'
-# require 'config'
 
 run Serval::Api::Base

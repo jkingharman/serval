@@ -8,9 +8,8 @@ gem 'grape'
 gem 'rack'
 gem 'sparql-client'
 
-group :development, :test do
+group :test do
   gem 'pry-byebug'
   gem 'rack-test'
   gem 'rspec'
-  gem 'webmock'
 end

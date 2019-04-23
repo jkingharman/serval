@@ -2,10 +2,11 @@
 
 ENV['RACK_ENV'] = 'test'
 
-require 'bundler/setup'
+require 'bundler'
 Bundler.require(:default, :test)
 
 require './spec/support/helpers'
+
 $LOAD_PATH << './app'
 require 'serval'
 
