@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "bundler"
+require 'bundler'
 Bundler.require(:default)
 
 $LOAD_PATH << './app'

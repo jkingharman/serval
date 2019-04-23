@@ -23,13 +23,13 @@ describe 'api dbpedia_sparql' do
   let(:big_lebowski_results) do
     {
       actors:
-      [
-        "Jeff_Bridges",
-        "Steve_Buscemi",
-        "David_Huddleston",
-        "Julianne_Moore",
-        "John_Goodman",
-        "John_Turturro"
+      %w[
+        Jeff_Bridges
+        Steve_Buscemi
+        David_Huddleston
+        Julianne_Moore
+        John_Goodman
+        John_Turturro
       ]
     }
   end
@@ -55,9 +55,9 @@ describe 'api dbpedia_sparql' do
     end
 
     it 'requires a valid format for actors' do
-      invalid = ["_spike__jonze", "SPIKE_JONZE", "Spikee.Jonze"]
+      invalids = ['_spike__jonze', 'SPIKE_JONZE', 'Spikee.Jonze']
 
-      invalid.each do |invalid|
+      invalids.each do |invalid|
         get '/', stringify_keys(actor: invalid)
         expect(last_response.status).to eq 400
         expect(response_body.key?('error')).to be true
@@ -65,9 +65,9 @@ describe 'api dbpedia_sparql' do
     end
 
     it 'requires a valid format for films' do
-      invalid = ["city_of_god", "City__Of_God", "_City_Of_God"]
+      invalids = %w[city_of_god City__Of_God _City_Of_God]
 
-      invalid.each do |invalid|
+      invalids.each do |invalid|
         get '/', stringify_keys(film: invalid)
         expect(last_response.status).to eq 400
         expect(response_body.key?('error')).to be true

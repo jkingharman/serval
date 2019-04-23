@@ -1,6 +1,6 @@
 ## Installation  ##
 
-First checkout this repo: ```https://github.com/jkingharman/serval.git``` Then:
+First checkout this repo: ```git clone https://github.com/jkingharman/serval.git``` Then:
 
 ```
 cd serval
