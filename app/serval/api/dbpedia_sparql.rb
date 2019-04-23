@@ -26,6 +26,7 @@ module Serval
           result = Services::Sparql.new.query(query)
 
           cache["#{resource_type}-#{resource_instance}"] = result
+          result
         end
       end
     end

@@ -17,8 +17,10 @@ module Serval
       end
 
       def validate_resource!(instance)
+        #TODO: Improve regex so we can remove #chomp and upcase check.
         instance.chomp!('_')
         not_all_caps = instance.upcase != instance
+
         alphanum_snake_case = /^([A-Z0-9][a-z0-9]{0,}_{0,1})+$/
 
         unless alphanum_snake_case.match?(instance) && not_all_caps

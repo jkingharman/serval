@@ -41,12 +41,6 @@ describe 'api dbpedia_sparql' do
       expect(response_body.key?('error')).to be true
     end
 
-    it 'requires a film or actor to not be blank' do
-      get '/', stringify_keys(actor: '')
-      expect(last_response.status).to eq 400
-      expect(response_body.key?('error')).to be true
-    end
-
     it 'accepts only one film or actor per request' do
       get '/', stringify_keys(actor: 'Spike_Jonze', film: 'Three_Kings')
 
@@ -55,7 +49,7 @@ describe 'api dbpedia_sparql' do
     end
 
     it 'requires a valid format for actors' do
-      invalids = ['_spike__jonze', 'SPIKE_JONZE', 'Spikee.Jonze']
+      invalids = ['', 'SPIKE_JONZE', 'Spikee.Jonze']
 
       invalids.each do |invalid|
         get '/', stringify_keys(actor: invalid)
@@ -65,7 +59,7 @@ describe 'api dbpedia_sparql' do
     end
 
     it 'requires a valid format for films' do
-      invalids = %w[city_of_god City__Of_God _City_Of_God]
+      invalids = %w[city_of_god '' _City_Of_God]
 
       invalids.each do |invalid|
         get '/', stringify_keys(film: invalid)
@@ -74,13 +68,13 @@ describe 'api dbpedia_sparql' do
       end
     end
 
-    it 'gets films featuring the actor provided' do
+    it 'gets films featuring the actor' do
       get '/', stringify_keys(actor: 'Spike_Jonze')
       expect(last_response.status).to eq 200
       expect(response_body).to eq(stringify_keys(jonze_results))
     end
 
-    it 'gets cached films if the actor has been provided before' do
+    it 'gets cached films if the actor has been seen' do
       expect(SPARQL::Client).not_to receive(:new)
       get '/', stringify_keys(actor: 'Spike_Jonze')
 
@@ -88,13 +82,13 @@ describe 'api dbpedia_sparql' do
       expect(response_body).to eq(stringify_keys(jonze_results))
     end
 
-    it 'gets actors starring in film provided' do
+    it 'gets actors starring in film' do
       get '/', stringify_keys(film: 'The_Big_Lebowski')
       expect(last_response.status).to eq 200
       expect(response_body).to eq(stringify_keys(big_lebowski_results))
     end
 
-    it 'gets cached actors if the film has been provided before' do
+    it 'gets cached actors if the film has been seen' do
       expect(SPARQL::Client).not_to receive(:new)
       get '/', stringify_keys(film: 'The_Big_Lebowski')
 
