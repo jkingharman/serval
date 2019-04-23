@@ -7,9 +7,10 @@ module Serval
 
       rescue_from Grape::Exceptions::ValidationErrors do |e|
         Rack::Response.new(
-          [{ error: e.message }.to_json]
-          , 400,
-          'Content-type' => 'text/error')
+          [{ error: e.message }.to_json],
+           400,
+          'Content-type' => 'text/error'
+        )
       end
 
       rescue_from :all do |_e|
