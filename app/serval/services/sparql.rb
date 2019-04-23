@@ -6,12 +6,20 @@ module Serval
       DEFAULT_ENDPOINT = 'http://dbpedia.org/sparql'
 
       def initialize
+        @retries = 5
         @client = SPARQL::Client.new(DEFAULT_ENDPOINT)
       end
 
-      # add retry logic.
       def query(sparql_query)
-        result = client.query(sparql_query)
+        begin
+          result = @client.query(sparql_query)
+        rescue SPARQL::Client::ServerError => e
+          @retries -= 1
+
+          @retries.positive? ? retry : error!(e, 500)
+        rescue SPARQL::Client::ClientError => e
+          error!(e, 500)
+        end
 
         if result.respond_to?(:bindings)
           format_solutions_hash(hashify_solutions(result))
@@ -19,8 +27,6 @@ module Serval
       end
 
       private
-
-      attr_reader :client
 
       def hashify_solutions(solutions)
         solutions.bindings.transform_values do |bound_vals|
