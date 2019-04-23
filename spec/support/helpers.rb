@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Serval
   module Helpers
     def response_body
