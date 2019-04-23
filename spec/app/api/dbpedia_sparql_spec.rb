@@ -14,11 +14,18 @@ describe 'api dbpedia_sparql' do
       expect(response_body.key?('error')).to be true
     end
 
+    it 'requires a film or actor param to not be blank' do
+      get '/', stringify_keys(actor: '')
+      expect(last_response.status).to eq 400
+      expect(response_body.key?('error')).to be true
+    end
+
     it 'accepts only one film or actor param per request' do
       get '/', stringify_keys(actor: 'Spike Jonze', film: 'Three Kings')
 
       expect(last_response.status).to eq 400
       expect(response_body.key?('error')).to be true
     end
+
   end
 end
