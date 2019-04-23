@@ -7,6 +7,13 @@ describe 'api base' do
 
   let(:app) { Serval::Api::Base }
 
+  it 'rescues errors from malformed SPARQL queries' do
+    get '/', stringify_keys(actor: 'Spike_Jonze<invalid>')
+
+    expect(last_response.status).to eq 400
+    expect(response_body).to eq('error' => 'Invalid query')
+  end
+
   it 'rescues from errors' do
     allow(Serval::Services::Sparql).to receive(:new) { raise 'error' }
 
