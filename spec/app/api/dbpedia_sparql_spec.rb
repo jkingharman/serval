@@ -73,8 +73,24 @@ describe 'api dbpedia_sparql' do
       expect(response_body).to eq(stringify_keys(jonze_results))
     end
 
+    it 'gets cached films if the actor has been provided before' do
+      expect(SPARQL::Client).not_to receive(:new)
+      get '/', stringify_keys(actor: 'Spike_Jonze')
+
+      expect(last_response.status).to eq 200
+      expect(response_body).to eq(stringify_keys(jonze_results))
+    end
+
     it 'gets actors starring in film provided' do
       get '/', stringify_keys(film: 'The_Big_Lebowski')
+      expect(last_response.status).to eq 200
+      expect(response_body).to eq(stringify_keys(big_lebowski_results))
+    end
+
+    it 'gets cached actors if the film has been provided before' do
+      expect(SPARQL::Client).not_to receive(:new)
+      get '/', stringify_keys(film: 'The_Big_Lebowski')
+
       expect(last_response.status).to eq 200
       expect(response_body).to eq(stringify_keys(big_lebowski_results))
     end

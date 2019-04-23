@@ -6,6 +6,10 @@ module Serval
       helpers do
         include Api::Helpers
 
+        def cache
+          @@cache ||= {}
+        end
+
         def sparql_service
           @sparql_service ||= Services::Sparql.new
         end
@@ -21,8 +25,12 @@ module Serval
         resource_type = declared(params, include_missing: false).keys.first
         resource_instance = declared(params)[resource_type]
 
-        query = sparql_query_string(resource_type, resource_instance)
-        result = sparql_service.query(query)
+        cache.fetch("#{resource_type}-#{resource_instance}") do
+          query = sparql_query_string(resource_type, resource_instance)
+          result = sparql_service.query(query)
+
+          cache["#{resource_type}-#{resource_instance}"] = result
+        end
       end
     end
   end
