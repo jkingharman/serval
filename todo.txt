@@ -1,0 +1,5 @@
+Development TODOS:
+
+Use webmock to stub out the external requests to DBpedia's SPARQL endpoint in tests.
+Increase visibility by adding logging for important service events.
+Refine regex.
