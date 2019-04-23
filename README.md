@@ -7,7 +7,7 @@ cd serval
 bundle install
 ```
 
-You can run the test suite with: ```rspec -fd```
+You can run the test suite with: ```bundle exec rspec -fd```
 
 To test the service manually, expose the service on port 9292 with ```rackup```.
 You can then test via the browser or cURL.
