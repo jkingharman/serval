@@ -20,19 +20,6 @@ describe 'api dbpedia_sparql' do
     }
   end
 
-  let(:jonze_results) do
-    {
-      films:
-      [
-        'Three_Kings_(1999_film)',
-        'Torrance_Rises',
-        'Higglety_Pigglety_Pop!_or_There_Must_Be_More_to_Life',
-        'Amarillo_by_Morning_(film)',
-        'Tell_Them_Anything_You_Want:_A_Portrait_of_Maurice_Sendak'
-      ]
-    }
-  end
-
   let(:big_lebowski_results) do
     {
       actors:
@@ -65,6 +52,27 @@ describe 'api dbpedia_sparql' do
 
       expect(last_response.status).to eq 400
       expect(response_body.key?('error')).to be true
+    end
+
+    it 'requires a valid format for actors' do
+      invalid = ["_spike__jonze", "SPIKE_JONZE", "Spikee.Jonze"]
+
+      invalid.each do |invalid|
+        get '/', stringify_keys(actor: invalid)
+        expect(last_response.status).to eq 400
+        expect(response_body.key?('error')).to be true
+      end
+    end
+
+
+    it 'requires a valid format for films' do
+      invalid = ["city_of_god", "City__Of_God", "_City_Of_God"]
+
+      invalid.each do |invalid|
+        get '/', stringify_keys(film: invalid)
+        expect(last_response.status).to eq 400
+        expect(response_body.key?('error')).to be true
+      end
     end
 
     it 'gets films featuring the actor provided' do
