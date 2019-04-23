@@ -10,7 +10,7 @@ module Serval
       end
 
       rescue_from :all do |_e|
-        error_msg = "Internal server error"
+        error_msg = 'Internal server error'
         Rack::Response.new([{ error: error_msg }.to_json], 500, 'Content-type' => 'text/error')
       end
 

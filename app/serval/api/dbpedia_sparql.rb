@@ -4,6 +4,8 @@ module Serval
   module Api
     class DBpediaSparql < Grape::API
       helpers do
+        include Api::Helpers
+
         def sparql_service
           @sparql_service ||= Services::Sparql.new
         end
@@ -16,7 +18,11 @@ module Serval
         exactly_one_of :film, :actor
       end
       get '/' do
-        sparql_service
+        resource_type = declared(params, include_missing: false).keys.first
+        resource_instance = declared(params)[resource_type]
+
+        query = sparql_query_string(resource_type, resource_instance)
+        result = sparql_service.query(query)
       end
     end
   end
