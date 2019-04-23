@@ -10,6 +10,7 @@ gem 'sparql-client'
 
 group :development, :test do
   gem 'rack-test'
+  gem 'rspec'
   gem 'pry-byebug'
   gem 'webmock'
 end
